@@ -1,0 +1,789 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fmodern\fprq1\fcharset0 Courier;}{\f3\froman\fprq2\fcharset0 Times New Roman;}}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\lang9\b\f0\fs22 Name code for understandable programs\par
+\b0 by Brad Barber    September 14, 2018\par
+\ul Abstract\ulnone\par
+\pard\nowidctlpar\sb100\sa100\lang1033 Clarity is desirable for programs. Programs are frequently enhanced and repaired. Neither task is easy if the program is difficult to understand. Clarity is desired at all levels of detail. This paper concerns the lowest level, the foundation of computation. It defines name code as a replacement for Turing machines. \line\line\i Name code \i0  is a finite sequence of instructions on an infinite set of names. The instructions set and test the values of fields. Both values and fields are names. \line\line This paper contains understandable programs for a universal name machine, a universal Turing machine, and a universal deterministic finite automata. These programs translate directly to assembly code. \par
+\pard\nowidctlpar\sa200\sl276\slmult1\lang9\ul Introduction\ulnone\par
+Programmers design and document a program using pseudocode.  Pseudocode is an informal description of the program via natural language statements.  The statements often include programming notations and mathematical expressions.  Typically there is one statement per line with indentation for scoping.   Here is an example from the Qhull program.   It is part of the header comment for qh_findbest() in geom_r.c .\par
+\pard\nowidctlpar\li1440\sl276\slmult1 design:\par
+      initialize and test for early exit\par
+      repeat while there are better facets\par
+          for each neighbor of facet\par
+              exit if outside facet found\par
+              test for better facet\par
+      if point is inside and partitioning\par
+          test for new facets with a "sharp" intersection\par
+          if so, future calls go to qh_findbestnew()\par
+      test horizon facets\par
+\pard\nowidctlpar\sl276\slmult1\par
+Pseudocode is particularly useful for commenting assembly language programs.   Assembly language is the low-level language for programming computers in machine code.   Here is an example.  The pseudocode comments start with a double semicolon (';;').\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1\f1\fs16 ;;update Xref for CellData \par
+;\par
+;\tab DS= CellData\par
+;\tab curxref= Xref\par
+;\tab nop if ss:noxref (but sets outofdate)\par
+;returns:\par
+;\tab ES destroyed\par
+;\tab any seg may move\par
+;\tab VOK 1997/12\par
+;\par
+;group: xref.-routines\par
+; call: yupdtext modsaved (moddata) deleteid \par
+; xref: _xreftitle _xrefcode\par
+\par
+_xrefdata:\par
+  proccall <norm>,<ds>,'_xrefdata: update Xref for @ds.CellData'\par
+  test\tab ds:cdflags,cddepotread  ;;exit if CellData .isDepotReadOnly\par
+  jnz\tab aa@ret\par
+  cmp\tab ds:cdtype,cdtext+cditem ;;exit if CellData .type = .text\par
+  jne\tab aa@nottext\par
+  mov\tab ax,ds:cdcount\tab           ;;  and CellData.count > .xrefMax\par
+  cmp\tab ax,ds:cdxrefmax\par
+  ja\tab aa@ret\par
+aa@nottext:\par
+  mov\tab al,ds:cditemid.high3\tab    ;;ItemId <- CellData .itemId\par
+  mov\tab bx,ds:cditemid.low3\par
+  mov\tab ah,ds:cdinfo.cdxreftype ;;Source <- _Text + CellData .xrefType\par
+  and\tab ah,xrtype\par
+  or\tab ah,xrtext\par
+  mov\tab si,cdfirst              ;;update Xref for CellData .firstText from\par
+  mov\tab cx,ds:cdcount           ;;   ItemId, Source\par
+  add\tab cx,txendtext\par
+  sub\tab cx,si\par
+  callu _updxref  ;ds,xseg\par
+  clear ax ;_incmirror\par
+aa@ret:\par
+  procret <norm>,<noresult>,'_xrefdata'\par
+\pard\nowidctlpar\sl276\slmult1\fs22\par
+\f0 This paper presents a new foundation for computer software, \i name code\i0 .   The long-term goal is efficient assembly code from descriptive pseudocode.   \par
+\par
+Name code operates on arbitrary names.   Almost anything that can be written down, can be used as a name.  In particular, names can describe the purpose or meaning of the name.\par
+\par
+Name code has six core instructions: Label, AssignLiteral, AssignValue, IfEquals, GotoLabel, and Goto .   A Print instruction visualizes the results.   The \i Namec\i0  program implements enhancements for notEquals and call.  Later work will add support for try, fail, parameters, and control structures, and efficient assembly code.\par
+\par
+Here is an excerpt from the universal name machine.  It executes the next instruction.    The first line is a label indicated by '->'.   The second line assigns the next Instruction.  The third line is a branch to the label 'execute Instruction'.\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1\f2\fs16     execute next Instruction->\par
+        Instruction= Instruction.next\par
+         ->execute Instruction\par
+\pard\nowidctlpar\sl276\slmult1\f0\fs22\par
+Without tracking registers and memory, Namec produces the following assembly code:\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1\f1\fs16   i@1775:                                         ;; execute next Instruction->\par
+execute_next_Instruction@thid8714:\par
+  xor   ecx,ecx                                 ;; Instruction= Instruction[next]\par
+  mov   cx,thid8714_n.Instruction\par
+  shl   ecx,th_valueBits-1 ;convert value to name\par
+  mov   ax,th_first_name[ecx].next\par
+  mov   thid8714_n.Instruction,ax\par
+  jmp   execute_each_Instruction@thid8714       ;; ->execute each Instruction\par
+\pard\nowidctlpar\sl276\slmult1\f0\fs22\par
+Appendix 1 contains the hello-world test.  It tests the core instructions for name code.    \par
+\par
+Appendix 2 is a regular expression recognizer implemented as a universal DFA machine.  \par
+\par
+Appendix 3 shows a universal Turing machine with three samples.   One of the samples was assembled to bin/turing-sample.exe.\par
+\par
+\ul Definition of Name Code\ulnone\par
+\par
+\i Name code\i0  is a program P that operates on names from an infinite set of names, N, in an infinite environment E.  \par
+\lang1033\par
+\lang9 Names in N are unordered and opaque.  Without loss of generality, they are represented as a finite string of symbols, including space and notations, drawn from a finite alphabet.  \par
+\par
+A \i name-field\i0 , n_i.n_j. is an ordered pair of names.   The first name, n_i, is called the \i name\i0  of the name-field, and the second name, n_j, is called its \i field.\i0  \par
+\par
+The \i environment\i0  E of name code assigns a \i value\i0 , n_k, to every name-field, n_i . n_j, of names in N.   The value is itself a name.  The meta-statement 'Let n_i.n_j= n_k' states that n_k is the value of n_i.n_j in E.  The environment is infinite and unordered.\par
+\par
+Every name is a total function, a \i name function\i0 , from fields to values (N.cross.N -> N).   Informally, these functions are called \i huge numbers\i0 .  For example, name functions can represent real numbers as digit positions to digits.  The identity function is called \i th_LIT\i0   (a reserved name for "literal").   \par
+\par
+A \i name program\i0  is a finite sequence of instructions (I_0, I_1, ..., I_n) that read and modify the environment.    The \i current instruction\i0  of a program is an instruction, I_i, from this sequence.    The program is executed one instruction at a time, starting with I_0 and ending with I_n.    Unless specified otherwise, the next instruction is the next instruction in the sequence.   A program execution may never end or end with an error.\par
+\par
+There is a small set of \i core instructions\i0  that define the semantics of name programs.  Additional instructions are derived from the core instructions.  In particular, \i Print\i0  instructions visualize the results.  This paper defines the core instructions.\par
+\par
+The six core instructions are \i Label, AssignLiteral, AssignValue\i0 ,\i  IfEquals\i0 , \i GotoLabel \i0 and \i Goto\i0 .     To allow nearly arbitrary names, these instructions are indicted by tokens '->', '.', '=', '==', '=,', '[' and ']'.  There is one instruction per line.   Extra spacing is ignored.   Any unambiguous name may be used.     \par
+\par
+1) \i Label\i0   'n_a.n_b ->'  \par
+\par
+Label identifies an instruction for IfEquals and Goto (see below).    The name n_a identifies the program.  It is the same for every label in a program.    A program cannot contain duplicate labels.   Labels are arbitrary text.\par
+\par
+2) \i AssignLiteral\i0  'n_i . n_j = n_k'\par
+\par
+AssignLiteral sets the value of a name-field in the environment.   AssignLiteral sets the value of name-field n_i . n_j to n_k\par
+\par
+After an AssignLiteral instruction, the environment contains 'Let n_i . n_j = n_k'.   \par
+\par
+3) \i AssignValue \i0 'n_a . n_b [ n_c . n_d ] =  n_e . n_f [ n_g . n_h ]'\par
+\par
+AssignValue assigns the value of an indirect, name-field pair to an indirect, name-field pair.    \par
+\par
+Let n_a.n_b= n_ab\par
+Let n_c.n_d= n_cd\par
+Let n_e.n_f= n_ef\par
+Let n_g.n_h= n_gh\par
+Let n_ef.n_gh= n_efgh\par
+\par
+Then\par
+\tab n_ab.n_cd= n_efgh\par
+and\par
+\tab n_a . n_b [ n_c . n_d ] == n_ef.n_gh ->th_LIT.is equal\par
+\par
+4) \i IfEquals\i0  'n_a. n_b[n_c.n_d] == n_e . n_f -> n_g '\par
+\par
+Let n_a.n_b= n_ab\par
+Let n_c.n_d= n_cd\par
+Let n_e . n_f= n_ef\par
+Let n_ab.n_cd=n_abcd\par
+\par
+If n_abcd is n_ef, the next instruction is label n_g.\par
+\par
+The program fails with an error if it does not contain label n_g.\par
+\par
+5) GotoLabel  ' -> n_a '\par
+\par
+The next instruction is label n_a.\par
+\par
+The program fails with an error if it does not contain label n_a.\par
+\par
+6) Goto ' -> n_a . n_b'\par
+\par
+Let n_a.n_b= n_ab\par
+\par
+The next instruction is label n_ab.\par
+\par
+The program continues with the next instruction if it does not contain label n_ab.   \par
+\par
+7) \i PrintValue, PrintNewLine\i0   'n_a . n_b[ n_c . n_d ] ='\par
+\par
+Let n_a.n_b= n_ab\par
+Let n_c.n_d= n_cd\par
+Let n_ab.n_cd= n_abcd\par
+\par
+Print the value n_abcd, followed by a new line character.  \par
+\par
+A variation ( '... =,') prints the value followed by a comma and a space (PrintCommaSpace)   Multiple PrintCommaSpace instructions may be place on one line, optionally ending with a PrintNewLine. \par
+\par
+The name machine also prints Label instructions followed by a new line.  The print instructions are for visualizing the results.  They are not part of the core name instructions. \par
+\par
+\ul Reserved names\ulnone\par
+\par
+A static analysis of name code can classify the name-fields in a program.     Reserved names are defined to simplify their use.\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1\i literal\i0 : A literal name-field has one value that was originally set by an AssignLiteral instruction.    A literal name-field is a constant.  \par
+\par
+\i known\i0 : A known name-field always has a value from an AssignLiteral or AssignValue instruction of known values.    A known name-field is initialized.  If name code is restricted to known name-fields, the program is a deterministic finite automata  (DFA).  \par
+\par
+\i local\i0 : The name of a local name-field identifies the program.   The field is  either a label or a variable with a known value.\par
+\par
+\i unknown\i0 :  All other name-fields are unknown.  They are similar to uninitialized variables in a programming language.  By convention, unknown name-fields have the reserved value \i th_NEW\i0 .   This is equivalent to the \i Blank\i0  symbol used for unknown cells in a Turing machine.  Without this convention, unknown name-fields would be unbounded names, and hence, not representable.\par
+\pard\nowidctlpar\sl276\slmult1\par
+\pard\nowidctlpar\li720\sl276\slmult1 A \i well-formed\i0  program does \i not\i0  assign an  unknown name-field to a name-field.    \par
+\pard\nowidctlpar\sl276\slmult1\par
+Reserved names start with a unique tag, "th_" followed by an upper-case letter or a decimal digit. \par
+\par
+\i th_LIT (literal)\i0  -- Literal values are names used in AssignLiteral instructions.    The th_LIT identity function allows the use of literal names and literal fields in AssignValue, IfEquals, Goto, and Print instructions.  th_LIT is defined as \i th_LIT.n_i= n_i\i0  for all n_i.    For example, \par
+\tab x.y= a.b\par
+is shorthand for\par
+\tab th_LIT.x[th_LIT.y]= th_LIT.a[th_LIT.b]\par
+\par
+\i th_VAR (local variable)\i0  -- The th_VAR name indicates the current program for local variables.  \par
+\par
+Both th_LIT and th_VAR are usually implicit in a name program.   If the first mention of a name is an assignment (AssignLiteral or AssignValue) the name is a variable (th_VAR), otherwise it is a literal (th_LIT).   \par
+\par
+For example \par
+\tab Cell= Tape.first\par
+is short hand for\par
+\tab th_LIT.th_VAR[th_LIT.Cell]= th_Var.Tape[th_LIT.first]\par
+\par
+In core programs, th_LIT is explicitly set (e.g., th_LIT.x=x)  and local variables are fields of the program identifier.\par
+\par
+\i th_NEW (new assigned name) \i0 -- An unknown name-field has the value th_NEW. These values are tested with IfEquals.  \par
+\par
+Assigning th_NEW creates a new unique value.  Core programs only allow AssignLiteral for th_NEW.  Non-core programs may use either AssignLiteral or AssignValue.   Note that the universal name machine represents th_NEW as 'th_NEW_value' for Op:assignLiteral and Op:ifEquals.\par
+\par
+\i th_INC (increment function)\i0  -- The th_INC function returns a new, unique value.  It may be used to implement th_NEW.   Any unique value is OK.   By convention, th_INC is one more than the field name, or "2" if the name does not end in a digit.   For example,\par
+\tab th_INC[n0001]= n0002\par
+\par
+th_NEW and th_INC are used in conjuction.  For example, to create a new Cell in the universal Turing machine, the following sequence was used:\par
+\par
+    Right[Cell]==th_NEW          ->new right Cell\par
+    ...\par
+    new right Cell->\par
+\tab NewCell= th_NEW\par
+\tab ...\par
+\par
+The first instruction tests if the cell to the right of Cell is th_NEW.  \par
+\par
+The last instruction sets NewCell to a new assigned name.   By convention it is implemented by\par
+     th_NEW.nextAssigned= th_INC[th_NEW.nextAssigned]\par
+     NewCell= th_NEW.nextAssigned\par
+\par
+\i th_LBL2,  th_LBL3, ... (unique labels) \i0 -- Name code  may use unique labels as the target of an \i IfEquals\i0  or \i Goto\i0  instruction.\par
+\par
+\i th_TMP, th_TMP2, th_TMP3, ... (temporary variables) \i0 -- Name code may use temporary variables to simplify a program.  \par
+\par
+\i th_NAME, th_NAME2, ...  (parsed names)\i0  -- Name code may be transformed into an equivalent program with one or more th_NAME tokens in place of literal text.    The initial implementation replaces up to one literal string per line from the first '[[' to the last ']]'.    It allows arbitrary text as a name, including comment indicators.\par
+\par
+Future versions will implement expressions and control statements.\par
+\par
+th_STOP (\i program terminator\i0 ) -- In the encoding of instructions for the universal name machine, th_STOP marks the last instruction.  \par
+ \par
+\ul Universal name machine\ulnone\par
+\par
+The universal name machine executes name code as represented by\par
+AssignLiteral instructions. \par
+\par
+The Universal name machine executes these instructions, producing the same result as the original name machine.   \par
+\par
+See Appendix 1 for the universal name machine running the hello test program.\par
+\par
+\ul Name code to DFA\par
+\ulnone\par
+A deterministic finite automata (DFA) is a state machine without additional storage.   It takes a string of symbols as input and either accepts or rejects the string.  A DFA is equivalent to a regular expression.\par
+\par
+If well-formed name code is restricted to known name-fields (i.e., does not use th_NEW), it is a DFA.\par
+  \par
+See Appendix A for the universal DFA machine.  \par
+\par
+The heart of the program is\par
+            Symbol= FirstSymbol[Suffix]\par
+            State= Symbol[State]\par
+\par
+Symbol is the first symbol of the remaining string suffix.   \par
+\par
+Symbol[State] returns the next State for this Symbol and the current State.\par
+\par
+\ul Name code to Turing machine\par
+\ulnone\par
+A Turing machine is a state machine with a tape.  It is one of several, equivalent foundations for computability and automata theory.   Ignoring memory limitations, computers and programming languages are equivalent to a Turing machine.\par
+\par
+The instructions of a name code have counterparts in computer code and programming languages.  See the next section for an assembly code representation.  See Appendix 1 for a universal name machine.  Hence, name code can implement the universal Turing machine and Turing machines can implement name code, these representations are equivalent.\par
+\par
+An implementation of name code shares the memory limitations of programming languages.   Unknown name-fields need special treatment.   A Turing machine solves this problem with a 'blank' symbol on all unwritten cells.  It is part of the formal definition of Turing machines.\par
+\par
+Name code uses a similar technique.   All uninitialized name-fields in the environment have the value 'th_NEW'.   It represents any name.  It is like a NULL pointer in a programming language.   Assigning th_NEW assigns a new unique value.  It is equivalent to assigning and unbounded name.\par
+\par
+\ul Name code to assembly code\par
+\ulnone\par
+Name code instructions correspond to labels, assignment statements, and conditional branches of a computer's assembly code.  The environment of name code corresponds to the memory of a computer.   A name-field pair is an offset into a block of memory.  The value of a name-field pair is the data at this offset.   AssignValue corresponds to indexed addressing modes. \par
+\par
+\pard\nowidctlpar\sa200\sl276\slmult1\lang1033 For example, a mapping between Intel x86 instructions and name code instructions is as follows:\par
+\pard\nowidctlpar\li720\sa200\sl276\slmult1\b Intel x86\tab\tab Name code\par
+\b0 label: \tab\tab\tab label->\par
+mov x.y,3\tab\tab x.y= 3\par
+\pard\nowidctlpar\li720 cmp x.y,ax\tab\tab x.y == Register.ax -> i.label\par
+je label\par
+\par
+mov bx,v.Cell\tab\tab i.new[i.Cell]= i.Right[v.Cell]\par
+mov ax,Right[bx]\par
+mov new.Cell,ax\par
+\par
+\pard\nowidctlpar\sl276\slmult1\lang9 In order to implement a name code, the infinite environment is replaced by a finite memory.\par
+\par
+The \i memory\i0  of a name code consists of name-fields with known and assigned values.   All other name-fields are unknown.  They have the implicit value, th_NEW.   \par
+\par
+\f1\fs16\page Appendix 1 -- Universal name machine\par
+\par
+The following excerpt is a test of the universal name machine.   The comments are name code instructions.  For the full listing, see [TBD].\par
+\par
+It prints the name code under test, resolves the machines labels, and executes the name machine.  It logs each instruction as it executes.\par
+\par
+The name code is compiled from test/hello-test.nc\par
+\pard\nowidctlpar\li720\sl276\slmult1\b\par
+hello test of the core name machine, name-machine.nc\b0 ->\par
+\par
+  ->test th_NEW\par
+  ->Error: goto failed\par
+  \par
+  test th_NEW->\par
+  A.y==th_NEW    ->A.y is th_NEW, an unknown value\par
+  ->Error: A.y is known\par
+  A.y is th_NEW, an unknown value->\par
+  A.y= \par
+\par
+  assign th_NEW->  \par
+  A.y= th_NEW\par
+  A.y==th_NEW    ->Error: A.y==th_NEW\par
+  A.y==w         ->Error: A.x==w or any other known value\par
+  A.y=\par
+  \par
+  th_INC implements th_NEW->\par
+  A.y= th_INC[A.y] \par
+  A.y=\par
+  \par
+  A.y= say hello\par
+  ->A.y\par
+  ->Error: goto A.y failed\par
+  \par
+  say hello->\par
+  A.x= Hello World\par
+  B.name= A\par
+  B.field= x\par
+  A.y= B.name[B.field]\par
+  A.y==A.x       ->assigned B.name[B.field] \par
+  ->Error: A.y!=A.x\par
+  assigned B.name[B.field]->\par
+\par
+  print A.y->\par
+  A.y=\par
+\pard\nowidctlpar\sl276\slmult1\par
+The compiled code consists of AssignLiteral statements.  Here is an excerpt\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1   i25.op= Op:label\par
+    i25.fieldA= assign th_NEW\par
+    i25.next= i28\par
+  i28.op= Op:assignLiteral\par
+    i28.nameA= A\par
+    i28.fieldA= y\par
+    i28.fieldB= th_NEW_value\par
+    i28.next= i33\par
+  i33.op= Op:ifEquals\par
+    i33.nameA= th_LIT\par
+    i33.fieldA= A\par
+    i33.nameB= th_LIT\par
+    i33.fieldB= y\par
+    i33.nameC= th_LIT\par
+    i33.fieldC= th_NEW_value\par
+    i33.fieldD= [[Error: A.y==th_NEW]]\par
+    i33.next= i40\par
+\pard\nowidctlpar\sl276\slmult1\par
+When run through test/name-machine.nc, the output is a copy of the program\par
+\par
+\pard\nowidctlpar\li720\sl276\slmult1 ...\par
+i25, Op:label, u647, assign th_NEW, u647, u647, u647, u647, u647, u647\par
+i28, Op:assignLiteral, A, y, u647, th_NEW_value, u647, u647, u647, u647\par
+i33, Op:ifEquals, th_LIT, A, th_LIT, y, th_LIT, th_NEW_value, u647, Error: A.y==th_NEW\par
+...\par
+resolve, hello test of the core name machine, name-machine.nc, i0\par
+resolve, test th_NEW, i9\par
+resolve, A.y is th_NEW, an unknown value, i22\par
+resolve, assign th_NEW, i25\par
+resolve, th_INC implements th_NEW, i51\par
+resolve, say hello, i76\par
+resolve, assigned B.name[B.field], i111\par
+resolve, print A.y, i114\par
+=============\par
+== execute ==\par
+=============\par
+hello test of the core name machine, name-machine.nc\par
+test th_NEW\par
+A.y is th_NEW, an unknown value\par
+NEW\par
+assign th_NEW\par
+v_0001\par
+th_INC implements th_NEW\par
+v_0002\par
+say hello\par
+assigned B.name[B.field]\par
+print A.y\par
+Hello World\par
+\par
+\pard\nowidctlpar\sl276\slmult1\f0\fs22\par
+\page Appendix 2: Universal DFA machine as name code\par
+\par
+The following name code defines DFAs for the regular expressions '(0*1)*" and '(01|10)'.   It runs 12 tests on these DFAs and reports the results.\par
+\par
+The output of this name code is\par
+\par
+    Test01, accept, 01, for, (0*1)*, PASS\par
+    Test02, accept, 001, for, (0*1)*, PASS\par
+    Test03, accept, 1001, for, (0*1)*, PASS\par
+    Test04, accept, 1, for, (0*1)*, PASS\par
+    Test05, reject, 0, for, (0*1)*, PASS\par
+    Test06, reject, 00, for, (0*1)*, PASS\par
+    Test07, reject, 00, for, (01|10), PASS\par
+    Test08, reject, STOP, for, (01|10), PASS\par
+    Test09, accept, STOP, for, (0*1)*, PASS\par
+    Test10, accept, 01, for, (01|10), PASS\par
+    Test11, reject, 101, for, (01|10), PASS\par
+    Test12, accept, 10, for, (01|10), PASS\par
+    All tests passed\par
+\par
+These tests are performed by regexp-dfa.nc\f3\par
+\f1\fs16\par
+  //================\par
+  //== Test program for DFA regexps\par
+  //== DFA regexps tests = first test\par
+  //== DFA regexps logging = skip or detail\par
+  //================\par
+\par
+  define arguments->\par
+    Test= DFA regexps tests\par
+    Log=  DFA regexps logging\par
+    \par
+  initialize variables->\par
+    TestResult= All tests passed\par
+\par
+  for each Test->\par
+    Test==STOP                          ->exit for each Test\par
+    String= Test.test-string\par
+    Regexp= Test.test-regexp\par
+    ExpectedResult= Test.test-result\par
+\par
+    print Test->\par
+        Test=, ExpectedResult=, String=, for=, Regexp=,    \par
+\par
+    //================\par
+    //== test String with Regexp\par
+    //================\par
+    test String with Regexp->\par
+        State= Regexps[Regexp]\par
+        Suffix= String\par
+        Log==skip                       ->skip logging Regexp\par
+            Logging= \par
+            Test=, State=, Suffix=\par
+        skip logging Regexp->\par
+        for each Symbol in String->\par
+            Symbol= FirstSymbol[Suffix]\par
+            State= Symbol[State]\par
+            Log==skip                   ->skip logging String\par
+                Suffix=, Symbol=, State=\par
+            skip logging String->\par
+            State==accept ->exit for each Symbol\par
+            State==reject ->exit for each Symbol\par
+            Suffix= Next[Suffix]\par
+                                        ->for each Symbol in String\par
+      \par
+        exit for each Symbol->\par
+            ExpectedResult==State       ->pass\par
+            FAIL=\par
+            TestResult= One or more tests failed\par
+                                        ->next Test\par
+        pass->\par
+            PASS=\par
+                                        ->next Test\par
+    next Test->        \par
+        Test= Next[Test]\par
+                                        ->for each Test\par
+      \par
+    exit for each Test->\par
+  TestResult=\par
+\f0\fs22\par
+The tests consists of DFAs for the regular expressions, followed by the test definitions.\par
+\par
+\f1\fs16 test Regexps for core dfa program->\par
+\par
+  DFA regexps tests= Test01\par
+  DFA regexps logging= skip // skip or detail\par
+  \par
+  //================\par
+  //== Define DFAs for Regexps\par
+  //================\par
+\par
+  //===== accept or reject '(0*1)*' \par
+  Regexps.(0*1)* =      (0*1)* maybe 1\par
+  \par
+  0.(0*1)* maybe 1=     (0*1)* repeat 0\par
+  1.(0*1)* maybe 1=     (0*1)* maybe 1\par
+  STOP.(0*1)* maybe 1= accept\par
+  \par
+  0.(0*1)* repeat 0=    (0*1)* repeat 0\par
+  1.(0*1)* repeat 0=    (0*1)* maybe 1\par
+  STOP.(0*1)* repeat 0= reject\par
+  \par
+  //===== accept or reject '(01|10)' \par
+  Regexps.(01|10) =     (01|10) 0 or 1\par
+\par
+  0.(01|10) 0 or 1=     (01|10) one 1\par
+  1.(01|10) 0 or 1=     (01|10) one 0\par
+  STOP.(01|10) 0 or 1=  reject\par
+\par
+  0.(01|10) one 1=      reject\par
+  1.(01|10) one 1=      (01|10) stop\par
+  STOP.(01|10) one 1=   reject\par
+\par
+  0.(01|10) one 0=      (01|10) stop\par
+  1.(01|10) one 0=      reject\par
+  STOP.(01|10) one 0=   reject\par
+\par
+  0.(01|10) stop=       reject\par
+  1.(01|10) stop=       reject\par
+  STOP.(01|10) stop=    accept\par
+  \par
+  //================\par
+  //== Tests for Regexps defined above\par
+  //================\par
+  Test01.test-string= 01\par
+    Test01.test-regexp= (0*1)*\par
+    Test01.test-result= accept\par
+    Next.Test01= Test02\par
+  FirstSymbol.01= 0\par
+    Next.01= 1\par
+  FirstSymbol.1= 1\par
+    Next.1= STOP\par
+  FirstSymbol.STOP= STOP\par
+\par
+  //================\par
+  Test02.test-string= 001\par
+    Test02.test-regexp= (0*1)*\par
+    Test02.test-result= accept\par
+    Next.Test02= Test03\par
+  FirstSymbol.001= 0\par
+    Next.001= 01\par
+  \par
+  //================\par
+  Test03.test-string= 1001\par
+    Test03.test-regexp= (0*1)*\par
+    Test03.test-result= accept\par
+    Next.Test03= Test04\par
+  FirstSymbol.1001= 1\par
+    Next.1001= 001\par
+  \par
+  //================\par
+  Test04.test-string= 1\par
+    Test04.test-regexp= (0*1)*\par
+    Test04.test-result= accept\par
+    Next.Test04= Test05\par
+\par
+  //================\par
+  Test05.test-string= 0\par
+    Test05.test-regexp= (0*1)*\par
+    Test05.test-result= reject\par
+    Next.Test05= Test06\par
+  FirstSymbol.0= 0\par
+    Next.0= STOP\par
+  \par
+  //================\par
+  Test06.test-string= 00\par
+    Test06.test-regexp= (0*1)*\par
+    Test06.test-result= reject\par
+    Next.Test06= Test07\par
+  FirstSymbol.00= 0\par
+    Next.00= 0\par
+  \par
+  //================\par
+  Test07.test-string= 00\par
+    Test07.test-regexp= (01|10)\par
+    Test07.test-result= reject\par
+    Next.Test07= Test08\par
+  \par
+  //================\par
+  Test08.test-string= STOP\par
+    Test08.test-regexp= (01|10)\par
+    Test08.test-result= reject\par
+    Next.Test08= Test09\par
+  \par
+  //================\par
+  Test09.test-string= STOP\par
+    Test09.test-regexp= (0*1)*\par
+    Test09.test-result= accept\par
+    Next.Test09= Test10\par
+  \par
+  //================\par
+  Test10.test-string= 01\par
+    Test10.test-regexp= (01|10)\par
+    Test10.test-result= accept\par
+    Next.Test10= Test11\par
+  \par
+  //================\par
+  Test11.test-string= 101\par
+    Test11.test-regexp= (01|10)\par
+    Test11.test-result= reject\par
+    Next.Test11= Test12\par
+  FirstSymbol.101= 1\par
+    Next.101= 01\par
+\par
+  //================\par
+  Test12.test-string= 10\par
+    Test12.test-regexp= (01|10)\par
+    Test12.test-result= accept\par
+    Next.Test12= STOP\par
+  FirstSymbol.10= 1\par
+    Next.10= 0\par
+\par
+\f0\fs22\page Appendix 3:  Universal Turing machine as a name machine\par
+\par
+Here is name code for the universal turing machine:\f1\fs16\par
+\par
+  execute Turing machine->\par
+  \par
+  Machine= Turing machine\par
+  Machine=\par
+  Cell= Machine.firstCell\par
+  State= Machine.firstState\par
+  Blank= Machine.Blank\par
+  \par
+  while State is not STOP->\par
+    execute Rule for Cell at State->\par
+        State==STOP                     ->exit execute Rule\par
+        Value= Cells[Cell]\par
+        Rule= Value[State]\par
+        // Rule= // debug\par
+                                        ->Move[Rule]\par
+        \par
+        unknown Rule->\par
+            State=, Cell=, Value=,\par
+            Error -- unknown Rule or missing Move for State, Cell, Value=\par
+                                        !>\par
+        Left->\par
+            Cells[Cell]= Write[Rule]\par
+            State= NextState[Rule]\par
+            Left[Cell]==th_NEW          ->new left Cell\par
+            Cell= Left[Cell] \par
+                                        ->execute Rule for Cell at State\par
+        new left Cell->\par
+            NewCell= th_NEW\par
+            Cells[NewCell]= Blank\par
+            Right[NewCell]= Cell\par
+            Left[Cell]= NewCell \par
+            Cell= NewCell\par
+            Machine.firstCell= Cell\par
+                                        ->execute Rule for Cell at State\par
+        Stay->\par
+            Cells[Cell]= Write[Rule]\par
+            State= NextState[Rule]\par
+                                        ->execute Rule for Cell at State\par
+        Right->\par
+            Cells[Cell]= Write[Rule]\par
+            State= NextState[Rule]\par
+            Right[Cell]==th_NEW         ->new right Cell\par
+            Cell= Right[Cell] \par
+                                        ->execute Rule for Cell at State\par
+        new right Cell->\par
+            NewCell= th_NEW\par
+            Cells[NewCell]= Blank\par
+            Left[NewCell]= Cell\par
+            Right[Cell]= NewCell \par
+            Cell= NewCell\par
+                                        ->execute Rule for Cell at State\par
+        exit execute Rule->\par
+    \par
+  print Turing tape->\par
+    Skip print==true                    ->exit print tape\par
+    Cell= Machine.firstCell\par
+    print value for each Cell->\par
+        Cells[Cell]=\par
+        Right[Cell]==th_NEW             ->exit print tape\par
+        Cell= Right[Cell]\par
+                                        ->print value for each Cell\par
+    exit print tape->\par
+\par
+  STOP=\par
+\par
+\par
+\f0\fs22 It executes Turing machine definitions in turing-samples.nc.   The 5 state busy beaver was assembled into bin/turing-sample.exe\par
+\par
+Three Turing machines->\par
+\par
+  select Machine->\par
+      // Turing machine= incrementer\par
+      Turing machine= 3-state busy beaver\par
+      // Turing machine= 5-state busy beaver\par
+      // Skip print= true  // true for timing runs, or grep -v ^.$\par
+\par
+  define Turing machines->\par
+  \par
+  // Define the incrementer Turing machine\par
+  incrementer.firstCell= c001\par
+      Cells.c001= 1\par
+        Right.c001= c002\par
+      Cells.c002= 1\par
+        Left.c002= c001\par
+        Right.c002= c003\par
+      Cells.c003= 1\par
+        Left.c003= c002\par
+      incrementer.firstState= go\par
+      incrementer.Blank= B\par
+\par
+      // transitions  \par
+      1.go= r001\par
+          Write.r001= 1\par
+          Move.r001= Right\par
+          NextState.r001= go\par
+\par
+      B.go= r002\par
+          Write.r002= 1\par
+          Move.r002= Stay\par
+          NextState.r002= STOP\par
+\par
+  // 3-state busy beaver Turing machine\par
+  3-state busy beaver.firstCell= c010\par
+      Cells.c010= 0\par
+      3-state busy beaver.firstState= a\par
+      3-state busy beaver.Blank= 0\par
+\par
+      // transitions\par
+      0.a= r010  \par
+          Write.r010= 1\par
+          Move.r010= Right\par
+          NextState.r010= b\par
+\par
+      1.a= r011  \par
+          Write.r011= 1\par
+          Move.r011= Left\par
+          NextState.r011= c\par
+\par
+      0.b= r012  \par
+          Write.r012= 1\par
+          Move.r012= Left\par
+          NextState.r012= a\par
+\par
+      1.b= r013  \par
+          Write.r013= 1\par
+          Move.r013= Right\par
+          NextState.r013= b\par
+\par
+      0.c= r014  \par
+          Write.r014= 1\par
+          Move.r014= Left\par
+          NextState.r014= b\par
+\par
+      1.c= r015  \par
+          Write.r015= 1\par
+          Move.r015= Stay\par
+          NextState.r015= STOP\par
+\par
+  // 5-state busy beaver Turing machine\par
+  5-state busy beaver.firstCell= c020\par
+      Cells.c020= 0\par
+      5-state busy beaver.firstState= A\par
+      5-state busy beaver.Blank= 0\par
+\par
+      // transitions\par
+      0.A= r020  \par
+          Write.r020= 1\par
+          Move.r020= Right\par
+          NextState.r020= B\par
+      1.A= r021  \par
+          Write.r021= 1\par
+          Move.r021= Left\par
+          NextState.r021= C\par
+\par
+      0.B= r022  \par
+          Write.r022= 1\par
+          Move.r022= Right\par
+          NextState.r022= C\par
+      1.B= r023  \par
+          Write.r023= 1\par
+          Move.r023= Right\par
+          NextState.r023= B\par
+\par
+      0.C= r024  \par
+          Write.r024= 1\par
+          Move.r024= Right\par
+          NextState.r024= D\par
+      1.C= r025  \par
+          Write.r025= 0\par
+          Move.r025= Left\par
+          NextState.r025= E\par
+\par
+      0.D= r026  \par
+          Write.r026= 1\par
+          Move.r026= Left\par
+          NextState.r026= A\par
+      1.D= r027  \par
+          Write.r027= 1\par
+          Move.r027= Left\par
+          NextState.r027= D\par
+\par
+      0.E= r028  \par
+          Write.r028= 1\par
+          Move.r028= Stay\par
+          NextState.r028= STOP\par
+      1.E= r029  \par
+          Write.r029= 0\par
+          Move.r029= Left\par
+          NextState.r029= A\par
+\f3\par
+}
+ 

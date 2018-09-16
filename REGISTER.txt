@@ -1,0 +1,32 @@
+Dear User of Namec:
+
+We would like to find out how you are using our software.  Did you
+find it useful?  What are your suggestions for improving name code?
+
+If you use Namec for writing software, please send us a note telling
+us what you are doing with it.
+
+We need to know:
+
+  (1) What you are working on - an abstract of your work would be
+      fine.
+
+  (2) What version of Namec you use.
+
+  (3) How Namec has helped you, for example, by increasing
+      your productivity or allowing you to do things you could not do
+      before.  In particular, if you feel that Namec has had a direct 
+      bearing on your work, please tell us about this.
+
+We encourage you to cite the use of Namec in your publications.  
+
+To cite Namec, use
+
+  Barber, C.B., "Name code for understandable programs,"
+  http://github.com/namec-git/namec/doc/pseudocode.rtf, 2018.
+
+Please send e-mail to
+
+    namec-git@qhull.org
+
+Thank you!

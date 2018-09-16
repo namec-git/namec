@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0F5DFB87-1428-3EA5-9045-0F8BBC67856A}</ProjectGuid>
+    <RootNamespace>namec</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;" Label="Configuration">
+    <PlatformToolset>v141</PlatformToolset>
+    <OutputDirectory>..\..\..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>..\..\build\x64\namec\Debug\</IntermediateDirectory>
+    <PrimaryOutput>namec</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;" Label="Configuration">
+    <PlatformToolset>v141</PlatformToolset>
+    <OutputDirectory>..\..\..\..\bin\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>..\..\build\x64\namec\Debug\</IntermediateDirectory>
+    <PrimaryOutput>namec</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\x64\namec\Debug\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">namec</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</IgnoreImportLibrary>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\..\..\bin\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\x64\namec\Debug\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">namec</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\src\namec;.;..\..\src;..\..\build;c:\bash\local\protobuf-2.6.1\src;%QTDIR%\include;%QTDIR%\include\QtNetwork;%QTDIR%\include\QtTest;%QTDIR%\include\QtCore;..\moc;%QTDIR%\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>..\..\build\x64\namec\Debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>..\..\build\x64\namec\Debug\</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;WIN64;_ENABLE_EXTENDED_ALIGNED_STORAGE;TH_NO_PRECOMPILE;TH_NO_THID_ID;TH_NO_THDISK;QT_NO_CAST_TO_ASCII;QT_NETWORK_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%QTDIR%\lib\Qt5Networkd.lib;%QTDIR%\lib\Qt5Testd.lib;%QTDIR%\lib\Qt5Cored.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\build\x64\Debug;%QTDIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\namec.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;WIN64;_ENABLE_EXTENDED_ALIGNED_STORAGE;TH_NO_PRECOMPILE;TH_NO_THID_ID;TH_NO_THDISK;QT_NO_CAST_TO_ASCII;QT_NETWORK_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot;;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\src\namec;.;..\..\src;..\..\build;c:\bash\local\protobuf-2.6.1\src;%QTDIR%\include;%QTDIR%\include\QtNetwork;%QTDIR%\include\QtTest;%QTDIR%\include\QtCore;..\moc;%QTDIR%\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>..\..\build\x64\namec\Debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>..\..\build\x64\namec\Debug\</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;WIN64;_ENABLE_EXTENDED_ALIGNED_STORAGE;TH_NO_PRECOMPILE;TH_NO_THID_ID;TH_NO_THDISK;QT_NO_CAST_TO_ASCII;QT_NO_DEBUG;QT_NETWORK_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot;;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%QTDIR%\lib\Qt5Network.lib;%QTDIR%\lib\Qt5Test.lib;%QTDIR%\lib\Qt5Core.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\build\x64\Debug;%QTDIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\namec.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;WIN64;_ENABLE_EXTENDED_ALIGNED_STORAGE;TH_NO_PRECOMPILE;TH_NO_THID_ID;TH_NO_THDISK;QT_NO_CAST_TO_ASCII;QT_NO_DEBUG;QT_NETWORK_LIB;QT_TESTLIB_LIB;QT_CORE_LIB;QT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\road\RoadArg64.cpp" />
+    <ClCompile Include="..\..\src\road\RoadError.cpp" />
+    <ClCompile Include="..\..\src\road\RoadEvent.cpp" />
+    <ClCompile Include="..\..\src\road\RoadEventPool.cpp" />
+    <ClCompile Include="..\..\src\road\RoadEventStack.cpp" />
+    <ClCompile Include="..\..\src\road\RoadLogEvent.cpp" />
+    <ClCompile Include="..\..\src\namec\RoadUtility_mini.cpp" />
+    <ClCompile Include="..\..\src\thidcode\ThAsmCode.cpp" />
+    <ClCompile Include="..\..\src\thidcore\ThCall.cpp" />
+    <ClCompile Include="..\..\src\thidcode\ThCode.cpp" />
+    <ClCompile Include="..\..\src\thidcode\ThCoreCode.cpp" />
+    <ClCompile Include="..\..\src\thidcore\ThError.cpp" />
+    <ClCompile Include="..\..\src\thidcode\ThExecuteCode.cpp" />
+    <ClCompile Include="..\..\src\thidcore\ThLog.cpp" />
+    <ClCompile Include="..\..\src\thidcore\ThWarn.cpp" />
+    <ClCompile Include="..\..\src\namec\namec.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\road\RoadArg64.h" />
+    <ClInclude Include="..\..\src\road\RoadError.h" />
+    <ClInclude Include="..\..\src\road\RoadEvent.h" />
+    <ClInclude Include="..\..\src\road\RoadEventPool.h" />
+    <ClInclude Include="..\..\src\road\RoadEventStack.h" />
+    <ClInclude Include="..\..\src\road\RoadLogEvent.h" />
+    <ClInclude Include="..\..\src\namec\RoadUtility_mini.h" />
+    <CustomBuild Include="..\..\src\thidcode\ThAsmCode.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\thidcode\ThAsmCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThAsmCode.h -o ..\..\build\moc\moc_ThAsmCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ../../src/thidcode/ThAsmCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\moc\moc_ThAsmCode.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\thidcode\ThAsmCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThAsmCode.h -o ..\..\build\moc\moc_ThAsmCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ../../src/thidcode/ThAsmCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\moc\moc_ThAsmCode.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\src\thidcore\ThCall.h" />
+    <CustomBuild Include="..\..\src\thidcode\ThCode.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\thidcode\ThCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThCode.h -o ..\..\build\moc\moc_ThCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ../../src/thidcode/ThCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\moc\moc_ThCode.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\thidcode\ThCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThCode.h -o ..\..\build\moc\moc_ThCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ../../src/thidcode/ThCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\moc\moc_ThCode.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\thidcode\ThCoreCode.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\thidcode\ThCoreCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThCoreCode.h -o ..\..\build\moc\moc_ThCoreCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ../../src/thidcode/ThCoreCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\moc\moc_ThCoreCode.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\thidcode\ThCoreCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThCoreCode.h -o ..\..\build\moc\moc_ThCoreCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ../../src/thidcode/ThCoreCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\moc\moc_ThCoreCode.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\src\thidcore\ThError.h" />
+    <CustomBuild Include="..\..\src\thidcode\ThExecuteCode.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\src\thidcode\ThExecuteCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThExecuteCode.h -o ..\..\build\moc\moc_ThExecuteCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC ../../src/thidcode/ThExecuteCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\moc\moc_ThExecuteCode.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\src\thidcode\ThExecuteCode.h;..\..\build\moc\moc_predefs.h;%QTDIR%\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">%QTDIR%\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DTH_NO_PRECOMPILE -DTH_NO_THID_ID -DTH_NO_THDISK -DQT_NO_CAST_TO_ASCII -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR=&quot;C:/qt/thid/build/namec&quot; --compiler-flavor=msvc --include C:/qt/thid/build/moc/moc_predefs.h -I%QTDIR%/mkspecs/win32-msvc -IC:/qt/thid/src/namec -IC:/qt/thid/src -IC:/qt/thid/build -Ic:/bash/local/protobuf-2.6.1/src -I%QTDIR%/include -I%QTDIR%/include/QtNetwork -I%QTDIR%/include/QtTest -I%QTDIR%/include/QtCore -I. ..\..\src\thidcode\ThExecuteCode.h -o ..\..\build\moc\moc_ThExecuteCode.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC ../../src/thidcode/ThExecuteCode.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\moc\moc_ThExecuteCode.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="..\..\src\thidcore\ThLog.h" />
+    <ClInclude Include="..\..\src\thidcore\ThWarn.h" />
+    <ClInclude Include="..\..\src\thidcore\tglobal.h" />
+    <ClInclude Include="..\..\src\thidcore\thesa.h" />
+    <ClInclude Include="..\..\src\thidcore\tnamespace.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\build\moc\moc_ThAsmCode.cpp" />
+    <ClCompile Include="..\..\build\moc\moc_ThCode.cpp" />
+    <ClCompile Include="..\..\build\moc\moc_ThCoreCode.cpp" />
+    <ClCompile Include="..\..\build\moc\moc_ThExecuteCode.cpp" />
+    <CustomBuild Include="..\..\build\moc\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">%QTDIR%\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">cl -Bx%QTDIR%\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Zi -MDd -E %QTDIR%\mkspecs\features\data\dummy.cpp 2>NUL >..\..\build\moc\moc_predefs.h</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">Generate moc_predefs.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">..\..\build\moc\moc_predefs.h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">%QTDIR%\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">cl -Bx%QTDIR%\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -O2 -MD -E %QTDIR%\mkspecs\features\data\dummy.cpp 2>NUL >..\..\build\moc\moc_predefs.h</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">Generate moc_predefs.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">..\..\build\moc\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

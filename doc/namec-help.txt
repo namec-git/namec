@@ -1,0 +1,181 @@
+
+namec -- name code for programming with arbitrary names
+  http://github.io/namec-git  2018.1  2018/09/14 1.0.0
+Options:
+  -s, --syntax          -- Syntax for name code
+  -e, --execute         -- Execute name code
+  -C, --compile=file    -- Compile core code to file
+  -X, --extra-code=file -- Extra code for compile
+  -A, --assemble=file   -- Assembly code for Masm32
+  -V, --version         -- Version
+  -?, -h, --help        -- This message
+Logging:
+  -v, --verbose         -- Log events, '-v -v -v' for details
+  -t, --trace=N         -- Log steps(1), trace(2), detail(3,4)
+  -i, --ignore-errors   -- Ignore syntax errors, try errors, and missing calls
+  -S, --log-start=N     -- Start logging at event N
+  -L, --log-depth=N     -- Log up to depth N
+  -M, --log-max=N       -- Maximum events at one depth
+  -o, --log-stdout      -- Log to stdout instead of stderr
+  -n, --no-program      -- Do not log program
+Hello test of name code:
+  bin/namec test/hello-test.nc --execute --log-stdout --no-program
+  bin/namec test/hello-test-core.nc test/name-machine.nc -e -o -n
+  bin/namec test/hello-test-core-compile.nc  test/name-machine.nc --compile test/name-machine.nc.nc -n
+  bin/namec test/name-machine.nc.nc test/name-machine.nc -e -o -n
+  bin/namec test/hello-test.nc --assemble src/nameasm/name.asm -n; namec.sh nameasm; bin/nameasm.exe
+namec examples:
+  bin/namec test/regexp-test.nc test/regexp-dfa.nc -e -n
+  bin/namec test/turing-samples.nc test/turing-machine.nc -e -n -o
+  (cd test && ../bin/namec namec-test-core.nc namec-test-name-field.nc namec-test-literals.nc namec-test-try.nc namec-test.nc -e -n -o)
+  bin/namec test/namec-test-errors.nc -e -i -o
+
+=============================================================
+== namec -- Name code for programming with arbitrary names ==
+=============================================================
+
+A name code program is a sequence of instructions.  An instruction
+is printable text with spaces.  There is one instruction per line.
+Three or more instructions may be separated by '//':
+  instruction
+  instruction // instruction // instruction
+  instruction // comment to end of line
+  // comment to end of line
+
+A name code program uses labels, names, fields, literals, and values:
+  A label is arbitrary text.  It identifies an instruction
+  A program fails if it does not contain a label (see below)
+  The first label of a program is its name
+  A name is arbitrary text.  It contains fields
+  A field is arbitrary text.  A field has a value
+  A literal is arbitrary text.  It is a value
+  The value of a field is unknown until it is assigned
+  A value is a literal, name, field, or label depending on context (see below)
+  'th_NEW' is a reserved name.  It identifies unknown values
+
+The core instructions are:
+  label->                                        // label this instruction
+  name.field= literal                            // assign literal value
+  name.field[name.field]= name.field[name.field] // assign value
+  ->label                                        // goto label or fail
+  ->name.field                                   // goto name.field or continue
+  name.field[name.field]==name.field ->label     // if equal, goto label
+  name.field[name.field]==th_NEW ->label         // if unknown, goto label
+  name.field= th_NEW                             // assign a new, unique value
+
+Name code instructions are derived from the core instructions:
+  A program has an external identifier 'thid-...'
+  A variable is a field of the program's external identifier
+  Let N be a name, F a field, and V a variable
+  A term T is N.F or, depending on context, N, F, or V (see below)
+  A reference R is T or T[T]
+  An indexed term is followed by a bracket (T[...])
+  An index term is bracketed (...[T])
+  if T is not N.F
+    T is a variable V if it was assigned a value in the program
+    T is a name N if it is an indexed term
+    T is a field F if it is an index term
+  A literal is a value
+  N.F has a value
+  N[F] is the same as N.F
+  A value R' is either R or a literal
+  An indexed name N[F] is a total function from names to names
+
+The name code instructions are:
+  label->              // label this instruction or program
+  R= R'                // assign value to R
+  R= th_NEW            // assign a new, unique value
+  -> label             // goto label or fail
+  -> R                 // goto label at R or continue
+  R' == R'    ->label  // if equals, goto label or fail
+  R' != R'    ->label  // if not equals, goto label
+  R == th_NEW ->label  // if unknown, goto label
+  R != th_NEW ->label  // if known, goto label
+  program              // call program or fail
+  program     ->label  // try program. If OK, goto label
+  R           ->label  // try program at R. If OK, goto label
+  .                    // do nothing
+  ->                   // return to caller of program
+  !>                   // fail this program
+  !> R'                // fail by throwing an error
+  R' !>                // catch an error after a try
+  =!                   // breakpoint
+
+Print instructions visualize the results of a program:
+  R' =                 // print value followed by a new line
+  R' =,                // print value followed by a comma and space
+  R' =_                // print value followed by a space
+  R'=_                 // print value
+  R =!                 // print fields of name.field
+  =                    // print a new line
+  =,                   // print a comma
+  =_                   // print a space
+
+Multiple values may be separated by '=,' or '=_ ' (with space):
+  print comma-list with spaces=, Variable=, name.field=, Variable[Index]=,
+  print comma-list without spaces=,name.field=,literal=
+  print value-list with spaces =_ name.field =_ Variable.field=
+  print value-list without spaces=, Variable=_ ==_ literal=_
+
+Details to distinguish names and instructions:
+  The goal is to allow arbitrary, descriptive names
+  Leading spaces, trailing spaces, and extra spaces are ignored
+  [[...]] is an arbitrary name, field, variable, literal, or label.  One per line
+
+The instruction delimiters are '=', '==', '!=', '->', and '//':
+  Instructions are listed in precedence order
+  Multiple instructions are separated by two or more '//'
+  Comments start with '//'
+  Goto instructions start with '->'
+  Label instructions end with '->'
+  Throw instructions start with '!>'
+  Catch instructions end with '!>'
+  IfEquals instructions contain the first '==' and the last '->label'
+  IfNotEquals instructions contain the first '!=' and the last '->label'
+  IfNotEquals is selected if '!=' is before '=='
+  IfEquals and IfNotEquals ignore '===', '!!=',  or '!=='
+  Try instructions contain the last '->label'
+  Labels do not start or end with either '->' or '!>'
+  Print instructions end in '=', '=,', '=_', or '=!'
+  Print instructions do not end in '=='
+  Multiple print instructions are separated by '=,' or '=_ ' (with space)
+  Indexed assign instructions contain the first '[...]=' that is not '=='
+  Assign instructions contain the first '=' that is not '=='
+  Everything else is a call instruction
+
+The reference delimiters are '.', '[', and ']':
+  A name.field is the first '.' that is not '..'
+  An indexed reference T[T] is the first '[' and ends with ']'
+  Name.field for catch, goto, print, throw, and try is restricted
+  A restricted name.field does not contain ' ', '.', '=', '[', or ']'
+
+Reserved names start with 'thid-' or 'th_' followed by a digit or capital:
+  thid-... is an external identifier
+  th_NEW indicates an unknowable unique value
+    Name code could use unknown values instead of th_NEW
+  th_INC is a function to create unique values for th_NEW
+  th_NAME is a place holder for a literal name, field, or literal ([[...]])
+  th_END ignores the rest of a program
+
+The remaining reserved names are for generating core code (--compile):
+  th_LBL0000,th_LBL0001,... are generated labels for core code
+  th_LIT is a function for literals in core code:
+    th_LIT.literal= literal
+  th_TMP, th_TMP2,... are temporary variables in core code
+  th_VAR is a function for temporary variables in core code:
+    th_LIT.th_VAR[th_LIT.th_TMP]= th_LIT.name[x.y]
+
+To be done:
+  call program       // call is not implemented for --compile
+  try program ->label // try is not implemented for --assemble or --compile
+  !>                 // fail is an error for --assemble or --compile
+  !> literal         // throw a literal is a print followed by fail
+  !> name.field      // catch a reference is not implemented
+  literal !>         // catch a literal is not implemented
+  name.field !>      // catch a reference is not implemented
+
+Enhancements
+  Name code is currently not practical.  Assemble should use registers
+  Enhancements will include expressions, parameters, and program blocks
+  Programs and names will be externally defined with thid-... identifiers
+====================================================================

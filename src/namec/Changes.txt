@@ -1,0 +1,20 @@
+$Id: //main/2005/thid/src/namec/Changes.txt#2 $
+
+.............This file lists all changes to namec..............................
+
+------------
+To do
+- Format subscripts and symbols for pseudocode.rtf (e.g., n_i)
+- Set up Qt Creator with mingw build
+- Check code coverage of namec-test-*.nc with gcov
+- Fix RoadEventPool::roadEvent warning C4172: returning address of local variable or temporary
+- Guarantee unique labels for --assemble names
+- Generate 'as' compatible code for --assemble
+
+------------
+Namec 2018.1 2018/09/14 (1.0.0)
+
+- First release of namec with pseudocode.rtf and namec-help.txt
+- Name code for name-machine.nc, regexp-dfa.nc, turing-machine.nc
+- Test programs hello-test.nc, namec-test*.nc, namec.sh test-all
+- Paramterize zip_file in namec.sh and create a version directory

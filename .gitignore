@@ -1,0 +1,64 @@
+# git-ls-files --others --ignored
+# Lines that start with '#' are comments.
+
+# Other files
+README-mini.txt
+thid.sh
+doc/*.doc
+doc/name-*
+doc/system*
+doc/vivid*
+doc/*-r?-*
+src/Changes.txt
+src/Doxyfile*
+src/Makefile
+src/precompiled.h
+src/thid-lib.pri
+src/thid-proto.pri
+src/*.cpp
+src/*.pro
+src/*.qrc
+src/*.rtf
+src/*.xml
+src/road/RoadTest*
+src/road/RoadUtility*
+src/thidcode/thidcode.pro
+test/*.asm
+test/*.c
+test/*.lst
+test/*.ncode
+test/*.rtf
+test/*.th
+test/*.txt
+
+# Visual Studio
+*.user
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
