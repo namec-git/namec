@@ -23,7 +23,7 @@
     extrn clock:near 
 
     PUBLIC fn@err_notKnown, fn@err_unknownAX, fn@err_unknownLabel
-    PUBLIC fn@breakpoint, fn@clockMsec, fn@error, fn@decAX, fn@incAX, fn@newAX, fn@initialize
+    PUBLIC fn@breakpoint, fn@clockMsec, fn@error, fn@incAX, fn@newAX, fn@initialize
     PUBLIC fn@print, fn@printComma, fn@printCommaSP, fn@printNL, fn@printSP, fn@print_fields, fn@print_name
 
     extrn   th_first_assignable:byte  ; FIXUP how to import a 16 bit constant?  Cannot use EXTERNDEF with EQU.  ':abs" produced LNK1190 invalid fixup found, type ...1
@@ -157,46 +157,6 @@ fn@clockMsec:
   div   ecx
   ret
 
-;; Update AX to the previous assignable value 
-;
-;       AX= an assignable value
-;       th_next_assignable= next assignable value, if needed
-;       th_DEC_n= array of previous assignable values or th_new(0) if none
-;       th_INC_n= array of next assignable values or th_new(0) if none
-;       EDI= return address (@F)
-;returns:
-;       AX= the next assignable value
-;       EAX,EDX not preserved
-;       Other registers preserved
-;               if AX' is a new assignable value
-;                       AX' == th_next_assignable
-;           th_DEC_n[AX]= AX'
-;           th_INC_n[AX']= AX
-;           th_next_assignable += 2
-;
-;group: thasm.-runtime
-; call: ThAsmCode::writeAsmInstruction
-; same: fn@incAX
-
-fn@decAX:
-  xor   edx,edx ; clear edx
-  mov   dx,ax
-  xor   eax,eax ; clear eax
-  cmp   edx,th_maxValue
-  ja    fn@err_dec_dx
-  mov   ax,th_DEC_n[edx]
-  and   eax,eax
-  jz    @F
-  ret
-@@:
-  mov   ax,th_next_assignable
-  cmp   eax,th_maxValue
-  ja    fn@err_dec_assignable
-  add   th_next_assignable,th_valueInc
-  mov   th_DEC_n[edx],ax
-  mov   th_INC_n[eax],dx
-  ret
-
 ;; Report error ...
 ;
 ;       EDI= most recent return address (@F)
@@ -212,24 +172,6 @@ fn@err_assignable:
   pop   edi
   print uhex$(edi),10
   exit 1
-
-fn@err_dec_assignable:
-  push  edi
-  print "th_ERROR out-of-memory.  Cannot assign a th_DEC value after 0x"
-  pop   edi
-  print uhex$(edi),10
-  exit 1
-
-fn@err_dec_dx:
-  push  edi
-  push  edx
-  print "th_ERROR out-of-bounds th_DEC value 0x"
-  pop   edx ; name
-  print uhex$(edx),10
-  print "' after 0x"
-  pop   edi ; previous return
-  print uhex$(edi),10
-  exit  1
 
 fn@err_goto_ax:
   push  edi
@@ -329,7 +271,6 @@ fn@error:
 ;
 ;       AX= an assignable value
 ;       th_next_assignable= next assignable value, if needed
-;       th_DEC_n= array of previous assignable values or th_new(0) if none
 ;       th_INC_n= array of next assignable values or th_new(0) if none
 ;       EDI= return address (@F)
 ;returns:
@@ -339,12 +280,10 @@ fn@error:
 ;               if AX' is a new assignable value
 ;                       AX' == th_next_assignable
 ;           th_INC_n[AX]= AX'
-;           th_DEC_n[AX']= AX
 ;           th_next_assignable += 2
 ;
 ;group: thasm.-runtime
 ; call: ThAsmCode::writeAsmInstruction
-; same: fn@decAX
 
 fn@incAX:
   xor   edx,edx ; clear edx
@@ -362,7 +301,6 @@ fn@incAX:
   ja    fn@err_inc_assignable
   add   th_next_assignable,th_valueInc
   mov   th_INC_n[edx],ax
-  mov   th_DEC_n[eax],dx
   ret
 
 ;; initialize ThAsmMain

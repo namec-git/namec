@@ -14,22 +14,33 @@ Namec -- name code for programming with arbitrary names
  
 Purpose
 
-  Namec is for programming with arbitrary names.   Everything in name code is 
-  a name.   Name code has a flexible syntax with trivial semantics.  Its hello 
-  world program is a test of the system.  As name code, the traditional hello world:
+  Name code is for programming with arbitrary names.  Name code has a flexible syntax 
+  with trivial semantics.  Everything is a name.  Its hello world program is a test 
+  of name-machine.nc.  Its traditional hello world is:
 
      say hello->
      hello world=
   
-  Namec executes, compiles, and assembles name code.  The distribution includes
-  programs for a regular expression recognizer, three Turing machines, a name
-  machine, and various tests.
+  The distribution includes programs for regular expressions, three Turing machines, 
+  a name machine, and various tests.  As well as executing name code, Namec compiles
+  name code for name-machine.nc or assembles name code for Masm32.  
   
   Currently, name code is not practical.  It does not support integers, floats,
   strings, booleans, expressions, parameters, types, or external programs.  The 
   assembly code is wasteful of memory.  It ignores registers and the stack.
 
   Despite these limitations, name code programs can read like pseudocode.
+  
+Challenges
+
+  1) Write name code to implement th_NEW without using th_INC (name-machine.nc)
+  
+  2) With (1), start the name code clock.  It prints th_NEW values indefinitely. 
+     Be careful of memory.  The clock needs to run for at least a month.
+  
+  3) Write name code for 32-bit arithmetic.
+  
+  4) Write a verifier for well-formed name code.
   
 Environment requirements
 
@@ -103,7 +114,7 @@ Distributed files
 
   test/hello-test.nc        // hello world test program
   test/hello-test-core.nc   // hello world test program for name-machine.nc
-  test/hello-test-core-compile.nc // hello world for compiling with name-machine.nc
+  test/hello-test-core-compile.nc // hello world for compiling name-machine.nc
 
   test/namec-test.nc        // Test print instructions
   test/namec-test-core.nc   // Test core instructions

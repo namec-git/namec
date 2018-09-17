@@ -1,6 +1,7 @@
 
 namec -- name code for programming with arbitrary names
-  http://github.io/namec-git  2018.1  2018/09/14 1.0.0
+  http://github.io/namec-git/namec  2018.1  2018/09/14 1.0.0
+
 Options:
   -s, --syntax          -- Syntax for name code
   -e, --execute         -- Execute name code
@@ -9,6 +10,7 @@ Options:
   -A, --assemble=file   -- Assembly code for Masm32
   -V, --version         -- Version
   -?, -h, --help        -- This message
+
 Logging:
   -v, --verbose         -- Log events, '-v -v -v' for details
   -t, --trace=N         -- Log steps(1), trace(2), detail(3,4)
@@ -18,13 +20,15 @@ Logging:
   -M, --log-max=N       -- Maximum events at one depth
   -o, --log-stdout      -- Log to stdout instead of stderr
   -n, --no-program      -- Do not log program
-Hello test of name code:
+
+Hello test of name-machine.nc:
   bin/namec test/hello-test.nc --execute --log-stdout --no-program
   bin/namec test/hello-test-core.nc test/name-machine.nc -e -o -n
   bin/namec test/hello-test-core-compile.nc  test/name-machine.nc --compile test/name-machine.nc.nc -n
   bin/namec test/name-machine.nc.nc test/name-machine.nc -e -o -n
   bin/namec test/hello-test.nc --assemble src/nameasm/name.asm -n; namec.sh nameasm; bin/nameasm.exe
-namec examples:
+
+Namec examples:
   bin/namec test/regexp-test.nc test/regexp-dfa.nc -e -n
   bin/namec test/turing-samples.nc test/turing-machine.nc -e -n -o
   (cd test && ../bin/namec namec-test-core.nc namec-test-name-field.nc namec-test-literals.nc namec-test-try.nc namec-test.nc -e -n -o)

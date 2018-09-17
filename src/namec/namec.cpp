@@ -28,6 +28,7 @@ printHelp(const QCoreApplication &app){
         "namec -- name code for programming with arbitrary names\n";
     help += QStringLiteral("  ") += app.applicationVersion() += "\n";
     help += 
+        "\n"
         "Options:\n"
         "  -s, --syntax          -- Syntax for name code\n"
         "  -e, --execute         -- Execute name code\n"
@@ -36,6 +37,7 @@ printHelp(const QCoreApplication &app){
         "  -A, --assemble=file   -- Assembly code for Masm32\n"
         "  -V, --version         -- Version\n"
         "  -?, -h, --help        -- This message\n"
+        "\n"
         "Logging:\n"
         "  -v, --verbose         -- Log events, '-v -v -v' for details\n"
         "  -t, --trace=N         -- Log steps(1), trace(2), detail(3,4)\n"
@@ -45,13 +47,15 @@ printHelp(const QCoreApplication &app){
         "  -M, --log-max=N       -- Maximum events at one depth\n"
         "  -o, --log-stdout      -- Log to stdout instead of stderr\n"
         "  -n, --no-program      -- Do not log program\n"
-        "Hello test of name code:\n"
+        "\n"
+        "Hello test of name-machine.nc:\n"
         "  bin/namec test/hello-test.nc --execute --log-stdout --no-program\n"
         "  bin/namec test/hello-test-core.nc test/name-machine.nc -e -o -n\n"
         "  bin/namec test/hello-test-core-compile.nc  test/name-machine.nc --compile test/name-machine.nc.nc -n\n"
         "  bin/namec test/name-machine.nc.nc test/name-machine.nc -e -o -n\n"
         "  bin/namec test/hello-test.nc --assemble src/nameasm/name.asm -n; namec.sh nameasm; bin/nameasm.exe\n"
-        "namec examples:\n"
+        "\n"
+        "Namec examples:\n"
         "  bin/namec test/regexp-test.nc test/regexp-dfa.nc -e -n\n"
         "  bin/namec test/turing-samples.nc test/turing-machine.nc -e -n -o\n"
         "  (cd test && ../bin/namec namec-test-core.nc namec-test-name-field.nc namec-test-literals.nc namec-test-try.nc namec-test.nc -e -n -o)\n"
@@ -408,7 +412,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("C.B. Barber");
     QCoreApplication::setOrganizationDomain("thesa.com");
     QCoreApplication::setApplicationName("namec");
-    QCoreApplication::setApplicationVersion("http://github.io/namec-git  2018.1  2018/09/14 1.0.0");
+    QCoreApplication::setApplicationVersion("http://github.io/namec-git/namec  2018.1  2018/09/14 1.0.0");
     QCommandLineParser options;
     readOptions(app, &options);
     int status= 0;

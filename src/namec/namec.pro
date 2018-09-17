@@ -6,7 +6,7 @@ DEFINES += TH_NO_PRECOMPILE TH_NO_THID_ID TH_NO_THDISK
 include(../thid-warn.pri)
 include(../thid-app.pri)
 
-TARGET= ../../bin/namec
+TARGET= bin/namec
 
 CONFIG -= precompile_header
 QT -= axserver gui 

@@ -5,7 +5,7 @@
 ;$Date: 2018/05/15 $$Author: bbarber $
 
 ; Defined by ThAsmRun.asm
-        EXTERNDEF  fn@decAX:near, fn@incAX:near, fn@newAX:near, fn@breakpoint:near, fn@clearAssigned:near, fn@err_goto_ax:near, fn@err_notKnown:near, fn@err_unknownAX:near, fn@err_unknownLabel:near, fn@error:near, fn@initialize:near, fn@print:near, fn@printComma:near, fn@printCommaSP:near, fn@printNL:near, fn@printSP:near, fn@print_fields:near, fn@print_name:near
+        EXTERNDEF  fn@incAX:near, fn@newAX:near, fn@breakpoint:near, fn@clearAssigned:near, fn@err_goto_ax:near, fn@err_notKnown:near, fn@err_unknownAX:near, fn@err_unknownLabel:near, fn@error:near, fn@initialize:near, fn@print:near, fn@printComma:near, fn@printCommaSP:near, fn@printNL:near, fn@printSP:near, fn@print_fields:near, fn@print_name:near
         EXTERNDEF  fn@main_base:near
 
         ; Defined by dunpData.asm

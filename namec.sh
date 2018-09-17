@@ -45,7 +45,7 @@ while [[ $isnone == 1 || "$1" != "" ]]; do
         FILES="namec.sh COPYING.txt .gitignore LICENSE.txt README.txt REGISTER.txt \
           bin/namec.exe bin/turing-sample.exe bin/Qt5Core.dll \
           build/namec/namec.vcxproj doc/namec-help.txt doc/pseudocode.rtf \
-          src/thid-app.pri src/thid-warn.pri src/namec src/nameasm src/road \
+          src/Changes-namec.txt src/thid-app.pri src/thid-warn.pri src/namec src/nameasm src/road \
           src/thidcode src/thidcore/thesa.h src/thidcore/tglobal.h src/thidcore/tnamespace.h \
           src/thidcore/ThCall.* src/thidcore/ThError.* src/thidcore/ThLog.* \
           src/thidcore/ThWarn.* test/*.nc \
