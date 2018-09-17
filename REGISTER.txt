@@ -1,7 +1,7 @@
 Dear User of Namec:
 
 We would like to find out how you are using our software.  Did you
-find it useful?  What are your suggestions for improving name code?
+find it useful?  Do you have suggestions for improving name code?
 
 If you use Namec for writing software, please send us a note telling
 us what you are doing with it.
@@ -23,7 +23,7 @@ We encourage you to cite the use of Namec in your publications.
 To cite Namec, use
 
   Barber, C.B., "Name code for understandable programs,"
-  http://github.com/namec-git/namec/doc/pseudocode.rtf, 2018.
+  http://github.com/namec-git/namec/tree/master/doc/pseudocode.rtf, 2018.
 
 Please send e-mail to
 

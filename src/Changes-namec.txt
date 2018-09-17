@@ -1,4 +1,4 @@
-$Id: //main/2005/thid/src/namec/Changes.txt#2 $
+$Id: //main/2005/thid/src/Changes-namec.txt#1 $
 
 .............This file lists all changes to namec..............................
 

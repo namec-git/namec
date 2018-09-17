@@ -40,16 +40,21 @@ while [[ $isnone == 1 || "$1" != "" ]]; do
         shift
         namec.sh clean-all
         ($NAMEC --help && $NAMEC --syntax) >doc/namec-help.txt
-        bin/namec test/hello-test.nc -A src/nameasm/name.asm -n
+        (cd bin && windeployqt.exe namec.exe)
         rm $zip_file
-        FILES="namec.sh COPYRIGHT.txt LICENSE.txt README.txt REGISTER.txt \
-          .gitignore bin/namec.exe bin/turing-sample.exe \
+        FILES="namec.sh COPYING.txt .gitignore LICENSE.txt README.txt REGISTER.txt \
+          bin/namec.exe bin/turing-sample.exe bin/Qt5Core.dll \
           build/namec/namec.vcxproj doc/namec-help.txt doc/pseudocode.rtf \
           src/thid-app.pri src/thid-warn.pri src/namec src/nameasm src/road \
           src/thidcode src/thidcore/thesa.h src/thidcore/tglobal.h src/thidcore/tnamespace.h \
           src/thidcore/ThCall.* src/thidcore/ThError.* src/thidcore/ThLog.* \
           src/thidcore/ThWarn.* test/*.nc \
           "
+        ls -d $FILES >/dev/null
+        if [[ $? -ne 0 ]]; then
+          echo Error namec.sh: missing FILES for namec-zip
+          exit 1
+        fi
         cat >exclude.x <<EXCLUDEZIP
 x.*
 *.x
@@ -122,10 +127,6 @@ EXCLUDEZIP
                 if [[ -x bin/nameasm.exe ]]; then
                     mv bin/nameasm.exe bin/$LAST-nameasm.exe
                     ls -l bin/$LAST-nameasm.exe
-                    if [[ "$LAST" == "turing-machine.nc" ]]; then
-                        cp src/nameasm/name.asm src/nameasm/$LAST-name.asm
-                        cp src/nameasm/name_data.asm src/nameasm/$LAST-name_data.asm
-                    fi
                 else
                     TEST_RESULT="Error test-assemble: One or more masm32/link failed -- see $OUT"
                     echo Error test-assemble: unexpected results

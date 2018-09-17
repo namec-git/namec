@@ -14,7 +14,7 @@ i@0000:                                         ;; Three Turing machines->
 Three_Turing_machines@thid8714:
 i@0003:                                         ;; select Machine->
 select_Machine@thid8714:
-  mov   thid8714_n.Turing_machine,th_3_state_busy_beaver ;; Turing machine= 3-state busy beaver
+  mov   thid8714_n.Turing_machine,th_5_state_busy_beaver ;; Turing machine= 5-state busy beaver
 i@0011:                                         ;; define Turing machines->
 define_Turing_machines@thid8714:
   mov   incrementer_n.firstCell,c001            ;; incrementer.firstCell= c001
