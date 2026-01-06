@@ -1,0 +1,248 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}{\f1\froman\fprq2\fcharset0 Times New Roman;}{\f2\fswiss\fprq2\fcharset161 Calibri Greek;}}
+{\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\b\f0\fs22 How to build software with natural language\b0\f1\par
+\f0 Brad Barber, May 24, 2012\par
+Programming languages are not natural languages.  Natural language communicates thoughts, emotions, and ideas between people.    A natural language evolves\i  \i0 through use.    In Chineese, a few strokes of the brush communicates a complex idea.  In poetry, a few words can paint a picture and invoke an emotional response.    In song, words and music draw people together.  Among friends, a word or two can change behavior.  A natural language is evolutionary, expressive, and efficient.\par
+Programming languages are rigid, cryptic, and cumbersome.   A programming language defines a set of data types, data structures, and instructions.   While libraries and modules can expand, the core syntax is fixed.   Programs are code.  Programs are often difficult to understand, even by the original author.   Programs build layer on layer of abstraction.  Programming languages come and go with regularity.   The Javascript of today becomes the PL/1 of yesterday. \par
+Can we write software like we write a newspaper article, tell a story, argue a legal case, design a building, or prove a theorem?   Can programming be natural?    Can we change how we think about programming?   Fifty years from now will we think of writing a million line program like we now think of Turing writing programs in base-60?\par
+ Since the 1930\rquote s, Turing machines and lambda calculus have served as the theoretical foundation of computer hardware and software.     During that period, execution speed, memory size, disk capacity, and connected devices have scaled more than nine orders of magnitude.    Today, we can compute numbers that were previously impossible [1].    This growth in computing capacity will continue.    Is it time to build a new foundation for the next nine orders of magnitude? \f1\par
+\f0 Like natural langauge, a foundation for software should be\f1\par
+\pard\fi-360\li720\sa200\sl276\slmult1\f0 -\tab Evolutionary:  Software is difficult to get right.  It is better to build on the work of others than to build from scratch.\par
+-\tab Expressive:  To modify software you must understand what it does.\par
+-\tab Efficient:   Software should make efficient use of hardware instructions and memory. \f1\par
+\pard\sa200\sl276\slmult1\f0 Natural language is evolutionary and expressive, but it is not suitable as a programming language.  Assembly language is efficient, but it is neither evolutionary nor expressive.\par
+How do you create a foundation that is efficient, expressive, and evolutionary?    Turing machines and lambda calculus do not meet these requirements.\f1\par
+\f0 The Turing machine is a model for theory of computation and computer hardware [2].  It was particularly influential in the early development of computers.  A Turing machine has a simple definition.   It  reads and writes a infinite tape of cells.  Each cell holds a symbol.  A Turing machine is in one of several states.   A transition table defines the machine:  Given the current state and a symbol on the tape, specify a symbol to write to the tape, the next cell to read, and the next state.   \par
+The universal Turing machine produces the same result as a Turing machine.  Its tape encodes the machine's transition table and input.   The universal Turing machine is equivalent to a computer, its tape is equivalent to memory, and its encoded transition table is equivalent to a program.   The states and transitions of a Turing machine are similar to the states and transitions of computer hardware.  Unfortunately, states and transitions are difficult to map to functions, data structures, and objects.    Nor do they decompose into reusable components.\f1\par
+\f0 The lambda calculus provides a model for computer language semantics and functional programming [3].   The lambda calculus has an enumerable set of variables, identified by their names.   A function consists of a bound variable and a lambda expression.   Lambda expressions are defined recursively:  a variable is a lambda expression, as is a function, as is the application of a function to a lambda expression.    Rules define equality and the reduction of lambda expressions to simpler expressions.  Anything defined by lambda calculus can be defined by Turing machines, and vice versa.\f1\par
+\f0 While lambda calculus are a reasonable model for software, they do not map to computer hardware. \par
+A programming language can be defined by its values, data, and code.    Values are the primitives or atoms of the language.  Data is the long-term representation and data structures stored in memory and disk.  Code is the expressions, statements, and rules that manipulate data.  Code can represent data, and vice versa.\par
+The values for a Turing machine are its symbols and states.   The data of a Turing machine is its tape and current state.   The code is its transition table.   The values of the lambda calculus are its variables.  The data of the lambda calculus is its functions.   The code is lambda application.\f1\par
+\f0 This paper defines \i name machines\i0 .   A name machine is defined by names as represented by Unicode strings.   It combines the natural language of Unicode strings with the assembly language of computers.  The operations of a name machine correspond to computer instructions for read, move, test, call, return, and branch.   Name machines should enable descriptive representations of efficient computer code.   The representations may be shared and modified by everyone.    It may become a natural language, or \i system clay,\i0  for computer software.  \f1\par
+\f0 The data of a name machine is an infinite\f1 ,\f0  two-dimensional structure.  Its values are Unicode strings, or \i names\i0 .  There is an infinite number of names and each name has an infinite number of fields.  Each name-field pair has a value.  All names have the same, infinite set of fields. The number of names is infinite (one for each Unicode string).  The number of fields for a name is infinite (again, one for each Unicode string).    A value is a Unicode string, which is a name, which likewise has an infinite number of fields.   For example, the name \lquote 1234\rquote  may represent the number 1234 with fields \lquote 10\super 3\nosupersub\rquote , \lquote 10\super 2\nosupersub\rquote , \lquote 10\super 1\nosupersub\rquote , \lquote 10\super\f1 0\nosupersub\f0\rquote , and and values \lquote 1\rquote , \lquote 2\rquote , \lquote 3\rquote , and \lquote 4\rquote .   The name '1234' has an infinite number of other fields.   At any given time, we may know the value of some fields for a name.  For most names, we will never know the value of all of its fields.\par
+If we want a new foundation for programming, it needs to represent any value.   Finite strings of Unicode characters include the world\rquote s natural languages.   They can represent symbols, variables, notations, and addresses.   They are the values of a name machine.    Each string is a name that designates data.  These strings are the names of a name machine.\f1\par
+\f0 Pairs of names define a mapping or function, but a universal foundation cannot select one mapping for all.   Triplets of names define a mapping from a name and a feild to a value.    This is a familiar structure.   For instance an array has a name and a value for each index.    Each array element is a triplet: the array\rquote s name, an index, and its value.   Similarly a tuple or \lquote struct\rquote  has a name and a value for each of its fields.  Each data member of an object has a name and value.\f1\par
+\f0 While formally equivalent to the one dimensional tape of a Turing machine, this two dimensional structure of names and fields can be evolutionary, expressive, and efficient\f1 .\f0      By giving each name an infinite set of fields, it creates a universal data type that is not restrictive.  This creates a foundation for building non-constraining systems.\f1\par
+\f0 By defining names, fields, and values as Unicode strings, the full power of natural language can convey the meaning of a program.   The lambda-derived language, LISP, has a similar flexibility for its function and variable names.    Other languages also include flexible naming.   Why are programs not expressive?   Each programming language has its own set of primitives and each program has its own set of names for functions, variables, classes, and other entities.   Except for libraries, packages\f1 ,\f0  and modules, these names are private to an individual or small community.\f1\par
+\f0 A name machine is infinitely large.   There's always more names and more fields available.  You can define additional fields for a name or copy a subset of its fields.  Names can be available to everyone with multiple versions evolving together.  Instead of creating new systems from scratch, you can build on the work of others.\par
+For a foundation to be efficient, it needs to correspond to computer hardware instructions.   Names and fields map directly to the addressing modes of digital computers.   Operations on names and fields map directly to computer hardware instructions.\par
+A name machine has the following addressing modes or \i expressions\i0 .  Let N represent any Unicode string.   Let N.N and N[N] refer to the value for a name-field pair.  If R is either N or N.N, the addresing modes of a name machine are R, R[R], and R[R].N.   These expressions parallel the addressing modes of computer hardware.   They  are not recursive.  For example, consider the addressing modes for Intel\rquote s x86 architecture.   \f1\par
+\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1\f0 Addressing mode\f1\cell\f0 Example instruction\cell Example addressing mode\cell Expressions of N\f1\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1\f0 Displacement\cell mov ax,stuff\f1\cell\f0 stuff\f1\cell\f0 N\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1 Base or index\cell mov ax,[bx]\f1\cell\f0 [bx]\f1\cell\f0 Register.N\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1 Displacement plus base or index\f1\cell\f0 mov ax,[bp+8]\cell [bp+8]\cell Register.N.N\f1\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1\f0 Base plus index\cell mov ax,[bx+si]\cell [bx+si]\cell Register.N[Register.N]\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1 Base plus index plus displacement\cell mov ax,[bx+si+8]\cell [bx+si+8]\cell Register.N[Register.N].N\cell\row\trowd\trgaph108\trleft-108\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx2253\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx4621\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx7006\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx9468\pard\intbl\sa200\sl276\slmult1 Segment override\cell mov ax,ds:[bp+10]\cell ds:[bp+10]\cell Segment.N[Register.N].N\cell\row\pard\sa200\sl276\slmult1\f1\tab\par
+\f0 A name machine defines the following operations or \i instructions\i0 .  A\i  program\i0  for a name machines executes one instruction at a time.   Instructions may be labeled with a name.    A program may call other programs.   An instruction may go to another instruction.  \par
+If a program terminates, it either succeeds or fails.   A program \i succeeds\i0  if it returns successfully.  A program \i fails\i0  if it calls a program that fails, or if it goes to an undefined label.\par
+More formally, define the following instructions\f1\par
+\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3084\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6276\pard\intbl\sa200\sl276\slmult1\f0 N\sub 1\nosupersub\u8594? \u8710?\u8594?N\sub 2\nosupersub  \cell The instruction labeled N\sub 1\nosupersub  does operation \u8710? and then continues with the instruction labeled N\sub 2\nosupersub  unless otherwise directed.  \f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3084\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6276\pard\intbl\sa200\sl276\slmult1\f0 N\u8594?\cell N is a label for an instruction or program \cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3084\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6276\pard\intbl\sa200\sl276\slmult1\u8594?N\cell Go to the instruction labeled N in the current program.  Fail if the label does not exist in the program.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3084\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6276\pard\intbl\sa200\sl276\slmult1\f0\u8594?\cell Return successfully from the program. \f1\cell\row\pard\sa200\sl276\slmult1\par
+\f0 By organizing instructions as sequences, most labels may be implicit.  Each instruction in the sequence continues with the next instruction.   If so, both labels may be dropped.  The label of the first instruction is the name of a program.    The last instruction is implicitly a successful return.\f1\par
+\f0  Most instructions contain one or more expressions.    An expression has a value (i.e., a name, N).  Expressions are not recursive.  They contain at most five names.\f1\par
+\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 N\cell A Unicode string.  It may be a value, name, or field.  The value of N is N.\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 N\sub 1\nosupersub .N\sub 2\f1\cell\nosupersub\f0 Field N\sub 2 \nosupersub of name N\sub 1\nosupersub .   It has a value N\sub 3\nosupersub .   The \lquote .\rquote  operator associates left to right.\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 N\sub 1\nosupersub .N\sub 2\nosupersub .N\sub 3\f1\cell\nosupersub\f0 Same as N\sub 4\nosupersub .N\sub 3\nosupersub  where N\sub 4\nosupersub  is the value of N\sub 1\nosupersub .N\sub 2\nosupersub\f1 .\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 N\sub 1\nosupersub [N\sub 2\nosupersub ]\f1\cell\f0 Same as N\sub 1\nosupersub .N\sub 2\nosupersub\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 R\f1\cell\f0 N\sub  \nosupersub or N\sub 1\nosupersub .N\sub 2\nosupersub\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 R\sub 1\nosupersub [R\sub 2\nosupersub ]\f1\cell\f0 Same as N\sub 1\nosupersub .N\sub 2\nosupersub  where N\sub 1\nosupersub  is the value of R\sub 1\nosupersub  and N\sub 2\nosupersub  is the value of R\sub 2\nosupersub\f1 .\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f0 R\sub 1\nosupersub [R\sub 2\nosupersub ].N\sub 3\f1\cell\nosupersub\f0 Same as N\sub 4\nosupersub .N\sub 3\nosupersub  where N\sub 4\nosupersub  is the value of R\sub 1\nosupersub [R\sub 2\nosupersub ].\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\f2\'ee\f1\cell\f0 An expression: R, R\sub 1\nosupersub [R\sub 2\nosupersub ], or R\sub 1\nosupersub [R\sub 2\nosupersub ].N\sub 3\f1\cell\row\trowd\trgaph108\trleft627\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3021\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx5415\pard\intbl\sa200\sl276\slmult1\nosupersub\f2\'ee\f0\rquote\f1\cell\f0 Same as \f2\'ee\f0  without including N.    Used for the left-hand side of assignments.\f1\cell\row\pard\sa200\sl276\slmult1\par
+\f0 Using these expressions, define the following operations \u8710? \f1\par
+\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1 .\cell\f0 Do nothing.    Similarly, a program with no instructions or an instruction with no operation does nothing.  Continue with the next instruction.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f0 N\cell Call program N (i.e., call the program that is labelled by N).  On a successful return, continue with the next instruction.  If N fails, the calling program fails.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f2\'ee'= \'ee\f1\cell\f2 Assign the value of \'ee to \'ee\f0\rquote .  After the assignment, the expressions are equal.   Continue with the next instruction.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f2\'ee\sub\f0 1\super  \nosupersub\f2 == \'ee\sub\f0 2\nosupersub\u8594?N\cell If \f2 values of \'ee\sub\f0 1 \nosupersub\f2 and \'ee\sub\f0 2 \nosupersub are the same, go to N in the current program.   If N is not the label of an instruction, fail the program.  Otherwise, continue with the next instruction.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f2\'ee != \'ee\f0\u8594?N \cell If \f2 values of \'ee\sub\f0 1 \nosupersub\f2 and \'ee\sub\f0 2 \nosupersub are not the same, go to N in the current program.  If N is not the label of an instruction, fail the program.  Otherwise, continue with the next instruction.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f0\u8594? \f2\'ee\f1\cell\f0 Go to the label whose value is \f2\'ee\f0  in the current program.\f2   If the value of \'ee is not the name of an instruction, fail the program.\f1\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f2\{\'ee\}\f0\u8594?N\cell Try calling the program named by the value of \f2\'ee\f0 .  If the program succeeds, go to N in the current program.  If N is not the label of an instruction, fail the program.  Otherwise continue with the next instruction\f1 .\cell\row\trowd\trgaph108\trleft630\trbrdrl\brdrs\brdrw10\brdrcf2 \trbrdrt\brdrs\brdrw10\brdrcf2 \trbrdrr\brdrs\brdrw10\brdrcf2 \trbrdrb\brdrs\brdrw10\brdrcf2 \trpaddl108\trpaddr108\trpaddfl3\trpaddfr3
+\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx3060\clbrdrl\brdrw10\brdrs\brdrcf2\clbrdrt\brdrw10\brdrs\brdrcf2\clbrdrr\brdrw10\brdrs\brdrcf2\clbrdrb\brdrw10\brdrs\brdrcf2 \cellx6300\pard\intbl\sa200\sl276\slmult1\f0\cell\f1\cell\row\pard\sa200\sl276\slmult1\par
+\f0 That is all that is required for writing programs with names.   Its instructions may be implemented as Turing machines.   It can implement the universal Turing machine.   So like Turing Machines and lambda calculus, name machines define a foundation for writing programs.    By combining assembly code with natural language, its programs can be efficient, expressive, and evolutionary.\f1\par
+\f0 Appendix A: Sample code\par
+To get a sense of the language, this appendix contains excerpts from the universal machine.    \par
+The name of each program is in boldface.   Unless specified otherwise, instructions are executed in sequence.    Calling sequences are spelled out.   Conventions for parameters and other contructs will be defined later.\par
+\pard\b universal thid machine\par
+\b0\f1\par
+\f0   i001.op = print\par
+  i001.arg= a001\par
+  a001.type= Literal\par
+  a001.field= Hello World\par
+  i001.next= i002\par
+  i002.op = assign\par
+  i002.argA= a002\par
+  a002.type= Field\par
+  a002.name= A\par
+  a002.field= b\par
+  i002.argB= a001\par
+  i002.next= i003\par
+  i003.op = print\f1\par
+\f0   i003.arg= a002\par
+  i003.next= i004\par
+  i004.op = return\par
+  \par
+  stack.args[Program]= i001\par
+  execute Program\par
+\par
+\f1\par
+\b\f0 execute Program\f1\par
+\b0\par
+\f0   save stack\par
+  stack.args[Instruction]= stack.caller[Program]\par
+  \par
+  while->\par
+  stack.args[Instruction].op == return ->exit\par
+  execute Instruction\par
+  stack.args[Instruction]= stack.args[next Instruction]\par
+  ->while\par
+  \par
+  exit->\par
+  restore stack\par
+\par
+\f1\par
+\b\f0 save stack\f1\par
+\b0\par
+\f0   stack.temp= stack.locals\par
+  stack.locals = stack.locals[next]\par
+  stack.locals[save locals]= stack.temp\par
+  stack.locals[save caller]= stack.caller\par
+  stack.caller= stack.args\par
+  stack.args= stack.args[next]\par
+\f1\par
+\b\f0\par
+restore stack\f1\par
+\b0\par
+\f0   stack.args= stack.caller\par
+  stack.caller= stack.locals[save caller]\par
+  stack.locals= stack.locals[save locals]\par
+\f1\par
+\par
+\b\f0 get Name and Field for Arg:Field\f1\par
+\b0\par
+\f0   stack.caller[Name]= stack.caller[Arg].name\par
+  stack.caller[Field]= stack.caller[Arg].field\par
+\f1\par
+\par
+\b\f0 get Value for Arg\f1\par
+\b0\par
+\f0   save stack\par
+  stack.caller[Arg].type == Literal -> literal Arg\par
+   \par
+  non-literal Arg->\par
+    stack.args[Arg]= stack.caller[Arg]\par
+    get Name and Field for Arg\par
+    stack.temp= stack.args[Name]\par
+    stack.temp2= stack.args[Field]\par
+    stack.caller[Value]= stack.temp[stack.temp2]\par
+    ->exit \par
+  \par
+  literal Arg->\par
+    stack.caller[Value]= stack.caller[Arg].field\par
+    ->exit\par
+  \par
+  exit->\par
+  restore stack\par
+\par
+\f1\par
+\b\f0 execute Instruction\f1\par
+\b0\par
+\f0   save stack\par
+  stack.caller[next Instruction]= stack.caller[Instruction].next\par
+  stack.args[Instruction]= stack.caller[Instruction]\par
+  ->stack.args[Instruction].op\par
+  \par
+  assign->\par
+  execute Op::assign\par
+  ->exit\par
+  \par
+  breakpoint->\par
+  execute Op::breakpoint\par
+  ->exit\par
+  \par
+  call->\par
+  execute Op::call\par
+  ->exit\par
+  \par
+  dump->\par
+  execute Op::dump\par
+  ->exit\par
+  \par
+  if->\par
+  execute Op::if\par
+  ->exit\par
+  \par
+  goto->\par
+  execute Op::goto\par
+  ->exit\par
+  \par
+  label->\par
+  execute Op::label\par
+  ->exit\par
+  \par
+  nop->\par
+  execute Op::nop\par
+  ->exit\par
+  \par
+  print->\par
+  execute Op::print\par
+  ->exit\par
+  \par
+  unless->\par
+  execute Op::unless\par
+  ->exit\par
+  \par
+  exit->\par
+  restore stack\par
+\par
+\f1\par
+\b\f0 execute Op::assign\f1\par
+\b0\par
+\f0   save stack\par
+  stack.args[Arg]= stack.caller[Instruction].argA\par
+  get Name and Field for Arg\par
+  stack.args[Arg]= stack.caller[Instruction].argB\par
+  get Value for Arg \par
+  assign Value to Name and Field\par
+  restore stack\par
+\b\par
+\par
+get Name and Field for Arg\f1\par
+\b0\par
+\f0   save stack\par
+  ->stack.caller[Arg].type\par
+  \par
+  Field->\par
+  get Name and Field for Arg:Field\par
+  ->exit\par
+  \par
+  IndirectField->\par
+  get Name and Field for Arg:IndirectField\par
+  ->exit\par
+  \par
+  Array->\par
+  get Name and Field for Arg:Array\par
+  ->exit\par
+  \par
+  ArrayIndex->\par
+  get Name and Field for Arg:ArrayIndex\par
+  ->exit\par
+  \par
+  ArrayOffset->\par
+  get Name and Field for Arg:ArrayOffset\par
+  ->exit\par
+  \par
+  exit->\par
+  restore stack\par
+\f1\par
+\pard\sa200\sl276\slmult1 [1] For example, 120510132 is the number of truth tables defined by 3-CNF expressions of 5 variables ({\field{\*\fldinst{HYPERLINK "http://oeis.org/A112535"}}{\fldrslt{\ul\cf1 http://oeis.org/A112535}}}\f1\fs22 ).\par
+[2] Turing, A.M., "On computable numbers, with an application to the Entscheidngs problem," \i Proc. London Math. Soc.\i0 , 2.42:230-65, 1937.\par
+[3] Church, A., "An unsolvable problem of elementary number theory," \i Amer. J Math.\i0  58.2:345-363, April 1936.\par
+}
+ 

@@ -5,7 +5,6 @@
 README-mini.txt
 thid.sh
 doc/*.doc
-doc/name-*
 doc/system*
 doc/vivid*
 doc/*-r?-*
